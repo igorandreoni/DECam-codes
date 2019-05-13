@@ -1,2 +1,4 @@
-# match_db_decam
-Match sources to the DECam candidates database
+# DECam python codes
+
+## match_db_decam 
+Matches sources to the DECam candidates database
