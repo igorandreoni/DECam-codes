@@ -22,7 +22,8 @@ optional arguments:
 
 
 ## LCMAKER4: Forced PSF photometry with image subtraction
-The main code is lcmaker4.py.  More documentation will be provided. <br>
-Based on the PythonPhot: https://github.com/djones1040/PythonPhot 
+The main code is lcmaker4.py <br>  
+More documentation will be provided. <br>
+The image subtraction is performed with HOTPANTS and the PSF photometry is based on PythonPhot: https://github.com/djones1040/PythonPhot 
 
 
