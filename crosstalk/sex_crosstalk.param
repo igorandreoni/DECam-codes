@@ -1,0 +1,7 @@
+X_IMAGE                Object position along x                                    [pixel]
+Y_IMAGE                Object position along y                                    [pixel]
+X_WORLD                Barycenter position along world x axis                     [deg]
+Y_WORLD                Barycenter position along world y axis                     [deg]
+FLAGS                  Extraction flags                                          
+KRON_RADIUS            Kron apertures in units of A or B                         
+A_IMAGE                Profile RMS along major axis                               [pixel]
