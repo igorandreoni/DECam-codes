@@ -31,4 +31,6 @@ The main code is psfprogram.py <br>
 More documentation will be provided. <br>
 PSF photometry is based on PythonPhot: https://github.com/djones1040/PythonPhot 
 
-
+## Crosstalk
+The main code is crosstalk.py <br>  
+The code identifies saturating sources and flags those regions of the CCD where crosstalk ghost images are likely to be found.  It also indicates the radius (in arcsec) of the region that should be flagged as possible crosstalk. 
