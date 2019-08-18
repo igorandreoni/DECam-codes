@@ -106,7 +106,7 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
     #Read the secrets file and make the connection to the database
-    info = ascii.read('path_to_folder/db_access.csv', format='csv')
+    info = ascii.read('./db_access.csv', format='csv')
     info_decam = info[info['db'] == 'decam']
     db = f"host={info_decam['host'][0]} port={info_decam['port'][0]} dbname={info_decam['dbname'][0]} user={info_decam['user'][0]} password={info_decam['password'][0]}"
     connection = psycopg2.connect(db)
