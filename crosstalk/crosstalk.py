@@ -7,6 +7,9 @@ Find the XY position of the possible crosstalk and convert to WCS coordinates.
 create a file including the world coords of possible regions affected by crosstalk.
 '''
 
+# Author:  Igor Andreoni <andreoni@caltech.edu>,
+# License: MIT.
+
 import numpy as np
 import subprocess
 from subprocess import call
@@ -17,7 +20,8 @@ from astropy import wcs
 from astropy.table import Table
 import pdb
 
-def flag_crosstalk(path_images, image_name, callsex, path_config, set_saturation = True, saturation_adu = 5000, scale = 0.2637):
+def flag_crosstalk(path_images, image_name, callsex, path_config,
+                   set_saturation=True, saturation_adu=5000, scale = 0.2637):
 
     # Initialise the lists:
     listRA = []
@@ -29,15 +33,15 @@ def flag_crosstalk(path_images, image_name, callsex, path_config, set_saturation
     listSATdec = []
 		
     # Run SExtractor to find the sources flagged as saturating.
-    catname=crosstalk_filename=f"{path_images}/{image_name.replace('.fits','_xtalk_temp.cat')}"
+    catname = f"{path_images}/{image_name.replace('.fits','_xtalk_temp.cat')}"
 	
-    sexcommand= f"{callsex} {path_images}/{image_name} -c {path_config}/config_crosstalk.sex -CATALOG_NAME {catname} -PARAMETERS_NAME {path_config}/sex_crosstalk.param"
+    sexcommand = f"{callsex} {path_images}/{image_name} -c {path_config}/config_crosstalk.sex -CATALOG_NAME {catname} -PARAMETERS_NAME {path_config}/sex_crosstalk.param"
 
     # Fix the saturation level in case the user does not want to use the one given in the header:
     if set_saturation:
-        sexcommand=sexcommand + f" -SATUR_LEVEL {saturation_adu} -SATUR_KEY  NONE "
+        sexcommand = sexcommand + f" -SATUR_LEVEL {saturation_adu} -SATUR_KEY  NONE "
     else:
-        sexcommand=sexcommand + " -SATUR_KEY SATURATION "
+        sexcommand = sexcommand + " -SATUR_KEY SATURATION "
 
     # Call the SExtractor command:
     os.system(sexcommand)
@@ -64,7 +68,10 @@ def flag_crosstalk(path_images, image_name, callsex, path_config, set_saturation
     crosstalk_tbl = Table([[],[],[],[],[]], names = ('RA_sat','Dec_sat', 'RA_xtalk', 'Dec_xtalk', 'radius')) 
 
     # For each saturating star, compute the location of the crosstalk
-    for Xsat, Ysat, RAsat, DECsat, kr, a_image in zip(saturation_tbl['X_IMAGE'], saturation_tbl['Y_IMAGE'], saturation_tbl['X_WORLD'], saturation_tbl['Y_WORLD'], saturation_tbl['KRON_RADIUS'], saturation_tbl['A_IMAGE']):
+    for Xsat, Ysat, RAsat, DECsat, kr, a_image in zip(saturation_tbl['X_IMAGE'], saturation_tbl['Y_IMAGE'],
+                                                      saturation_tbl['X_WORLD'], saturation_tbl['Y_WORLD'],
+                                                      saturation_tbl['KRON_RADIUS'],
+                                                      saturation_tbl['A_IMAGE']):
         xcross = (NAXIS1 / 2.) + ((NAXIS1 / 2.) - Xsat)
         ycross = Ysat
         world_coords_xtalk = w.wcs_pix2world(np.array([[xcross, ycross]]), 1)
@@ -86,4 +93,6 @@ if __name__ == '__main__':
     image_name = '4hr.g.ut151219.503748_23.fits'
     callsex = '/Users/igor/Software/ureka/Ureka/bin/sex'
     path_config = '.'
-    crosstalk = flag_crosstalk(path_images, image_name, callsex, path_config, set_saturation = True, saturation_adu = 5000, scale = 0.2637)
+    crosstalk = flag_crosstalk(path_images, image_name, callsex, path_config,
+                               set_saturation = True, saturation_adu=5000,
+                               scale=0.2637)
